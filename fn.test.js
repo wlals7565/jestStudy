@@ -1,5 +1,5 @@
 const fn = require("./fn");
-
+/*
 test("1dms 1dldi.", () => {
   expect(1).toBe(1);
 });
@@ -94,7 +94,7 @@ test("3초 후에 받아온 이름은 Mike", (done) => {
 });
 
 // api테스트 시에는 try{} catch{}안에 넣으면 된다.
-/*
+
 test("3초 후에 받아온 나이는 30", () => {
   return fn.getAge().then((age) => {
     expect(age).toBe(30);
@@ -104,9 +104,87 @@ test("3초 후에 받아온 나이는 30", () => {
 test("3초 후에 받아온 나이는 30", () => {
   return expect(fn.getAge()).resolves.toBe(30);
 });
-*/
+
 
 test("3초 후에 받아온 나이는", async () => {
     const age = await fn.getAge();
     expect(age).toBe(30);
 })
+
+// beforEach비교
+// afterEach비교
+let num = 10;
+
+beforeEach(() => {
+    num = 0;
+});
+
+test("0 더하기 1은 1이야", () => {
+    num = fn.add(num,1);
+    expect(num).toBe(1)
+});
+
+test("0 더하기 2은 2이야", () => {
+    num = fn.add(num,2);
+    expect(num).toBe(2)
+});
+
+test("0 더하기 3은 3이야", () => {
+    num = fn.add(num,3);
+    expect(num).toBe(3)
+});
+
+test("0 더하기 4은 4이야", () => {
+    num = fn.add(num,4);
+    expect(num).toBe(4)
+});
+*/
+
+//beforeAll
+//afterAll
+
+let user;
+
+beforeAll(async() => {
+    user = await fn.connectUserDb();
+})
+afterAll(async () => {
+    return await fn.disConnectDb();
+})
+
+test("이름은 Mike", () => {
+    expect(user.name).toBe("Mike");
+});
+
+test("이름은 Mike", () => {
+    expect(user.age).toBe(30);
+});
+
+test("이름은 Mike", () => {
+    expect(user.gender).toBe("male");
+});
+
+
+// describe
+describe("Car 관련 작업", () => {
+    let car;
+
+    beforeAll(async() => {
+        car = await fn.connectCarDb();
+    })
+    afterAll(async () => {
+        return await fn.disConnectCarDb();
+    })
+    
+    test("이름은 Mike", () => {
+        expect(car.name).toBe("z4");
+    });
+    
+    test("이름은 Mike", () => {
+        expect(car.brand).toBe("bmw");
+    });
+    
+    test("이름은 Mike", () => {
+        expect(car.color).toBe("red");
+    });
+});
